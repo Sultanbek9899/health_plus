@@ -1,0 +1,218 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+
+{% block title %}
+	Store
+{% endblock %}
+
+
+{% block content %}
+	<!-- BREADCRUMB -->
+	<div class="section">
+		<!-- container -->
+		<div class="container">
+			<!-- row -->
+			<div class="row">
+				<!-- ASIDE -->
+				<div id="aside" class="col-md-3">
+					<!-- aside Widget -->
+					<form style="display: flex, flex-direction: column" method='get' action="{% url 'products_list' %}" name="filter">
+					<div class="aside">
+						<h3 class="aside-title">Категории</h3>
+						{% for category in categories%}
+						<div class="checkbox-filter">
+
+							<div class="input-checkbox">
+								<input type="checkbox" id={{ category.slug }} name='category' value={{ category.id }}>
+								<label for={{ category.slug }}>
+											<span></span>
+								{{ category.title }}
+									<small></small>
+								</label>
+							</div>
+						</div>
+						{% endfor %}
+					</div>
+					<!-- /aside Widget -->
+
+					<!-- aside Widget -->
+						<div class="aside">
+							<h3 class="aside-title">Цена</h3>
+							<div class="price-filter">
+								<div id="price-slider"></div>
+								<div class="input-number price-min">
+									<input id="price-min" name="price-min" type="number">
+									<span class="qty-up">+</span>
+									<span class="qty-down">-</span>
+								</div>
+								<span>-</span>
+								<div class="input-number price-max">
+									<input id="price-max" name="price-max" type="number">
+									<span class="qty-up">+</span>
+									<span class="qty-down">-</span>
+								</div>
+							</div>
+						</div>
+						<button style="margin-top: 15px" type="submit" class="search-btn2" id="sort">Сортировать</button>
+						<style>
+							.search-btn2{
+							height: 40px;
+							display: flex;
+							justify-content: center;
+							align-items: center;
+  padding: 15px 30px;
+  background: #078600;
+  color: #FFF;
+  font-weight: 700;
+  border: none;
+    border-radius: 40px 40px 40px 40px !important;
+    }
+						</style>
+					</form>
+					<!-- /aside Widget -->
+
+
+				</div>
+				<!-- /ASIDE -->
+
+				
+
+				<!-- STORE -->
+				<div id="store" class="col-md-9">
+					<!-- store top filter -->
+					<div class="store-filter clearfix">
+						<!-- store bottom filter -->
+						<div class="store-filter clearfix">
+							<ul class="store-pagination">
+								{% if page_obj.has_previous %}
+									<li><a href="?page={{ page_obj.previous_page_number }}"><</a></li>
+								{% endif %}
+								<li class="active">{{ page_obj.number }}</li>
+								{% if page_obj.has_next %}
+									<li><a href="?page={{ page_obj.next_page_number }}">></a></li>
+								{% endif %}
+							</ul>
+						</div>
+						<!--/store bottom filter -->
+					</div>
+					<!-- /store top filter -->
+
+					<!-- store products -->
+					<div class="row">
+						<!-- product -->
+						{% for product in products %}
+							<div class="col-md-4 col-xs-6">
+								<div class="product">
+									<div class="product-img">
+									<a href="{% url 'product_detail_url' product.slug %}">
+										<div class="product-label">
+											{% if product.discount %}
+												<span class="new">-{{ product.discount }}%</span>
+											{% endif %}
+										</div>
+											<img class="image" src="{{ product.image.url }}" alt="404">
+											
+										</div>
+									</a>
+									<div class="product-body">
+										<a href="{% url 'category_list' product.category.slug %}"><p class="product-category">{{ product.category }}</p></a>
+										<a href="{% url 'product_detail_url' product.slug %}"><h3 class="product-name">{{ product.title }}</h3></a>
+										{% if product.discount %}
+											<h4 class="product-price">{{ product.price_with_discount }} сом<del class="product-old-price">{{ product.price }} сом</del></h4>
+										{% else %}
+											<h4 class="product-price">{{ product.price }} сом</h4>
+										{% endif %}
+										<div class="product-rating">
+										{% if product.simple_star == 5%}
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+										{% endif %}
+										{% if product.simple_star >= 4 and product.simple_star < 5 %}
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star-o "></i>
+										{% endif %}
+										{% if product.simple_star >= 3 and product.simple_star < 4 %}
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star-o"></i>
+										{% endif %}
+										{% if product.simple_star >= 2 and product.simple_star < 3%}
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star-o"></i>
+												<i class="fa fa-star-o"></i>
+										{% endif %}
+										{% if product.simple_star >= 1 and product.simple_star < 2%}
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star-o"></i>
+												<i class="fa fa-star-o"></i>
+												<i class="fa fa-star-o"></i>
+										{% endif %}
+										{% if product.simple_star == 0%}
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+										{% endif %}
+										</div>
+										<div class="product-btns">
+											{% if request.user in product.favorites.all %}
+												<button class="add-to-wishlist"><a href="{% url 'add_favorites' product.id %}"><i class="fa fa-heart"></i><span class="tooltipp">Удалить из избранного</span></a></button>
+											{% else %}
+												<button class="add-to-wishlist"><a href="{% url 'add_favorites' product.id %}"><i class="fa fa-heart-o"></i><span class="tooltipp">Добавить в избранное</span></a></button>
+											{% endif %}
+											<button class="quick-view"><a href="{% url 'product_detail_url' product.slug %}"><i class="fa fa-eye"></i><span class="tooltipp">Детальная информация</span></a></button>
+										 </div>
+										</div>
+										<div class="add-to-cart">
+											<a href="{% url 'add_cart_url' product.id %}">
+												<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>Добавить в Корзину</button>
+											</a>
+
+										</div>
+								</div>
+						</div>
+						{% endfor %}
+						<!-- /product -->
+					</div>
+					<!-- /store products -->
+
+					<!-- store bottom filter -->
+					<div class="store-filter clearfix">
+						<ul class="store-pagination">
+							{% if page_obj.has_previous %}
+								<li><a href="?page={{ page_obj.previous_page_number }}"><</a></li>
+							{% endif %}
+								<li class="active">{{ page_obj.number }}</li>
+							{% if page_obj.has_next %}
+								<li><a href="?page={{ page_obj.next_page_number }}">></a></li>
+							{% endif %}
+						</ul>
+					</div>
+					<!-- /store bottom filter -->
+				</div>
+				<!-- /STORE -->
+			</div>
+			<!-- /row -->
+		</div>
+		<!-- /container -->
+	</div>
+	<!-- /SECTION -->
+
+	<!-- NEWSLETTER -->
+
+	<!-- /NEWSLETTER -->
+{% endblock %}

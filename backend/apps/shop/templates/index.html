@@ -1,0 +1,305 @@
+{% extends 'base.html' %}
+
+{% block title %}
+	Home
+{% endblock %}
+
+{% block content %}
+		
+		<!-- SECTION -->
+		<div class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+					<!-- shop -->
+					{% if favorites_products %}
+						<!-- section title -->
+						<div class="col-md-12">
+							<div class="section-title">
+								<h3 class="title">Избранное!</h3>
+								<div class="section-nav">
+								</div>
+							</div>
+						</div>
+						<!-- /section title -->
+					{% endif %}
+					{% for product in favorites_products %}
+						<div class="col-md-4 col-xs-6">
+							<div class="shop">
+								<div class="shop-img">
+									<img src="{{ product.image.url }}" alt="">
+								</div>
+								<div class="shop-body">
+									<h3><a style="color: white" href="{% url 'product_detail_url' product.slug %}">{{ product.title }}</a><br>{{ product.price }} сом</h3>
+									<a href="{% url 'product_detail_url' product.slug %}" class="cta-btn">Добавить в корзину<i class="fa fa-arrow-circle-right"></i></a>
+									<h3>{{ product.title }}<br>
+										{% if product.discount %}
+											{{ product.price_with_discount }} сом
+										{% else %}
+											{{ product.price }} сом
+										{% endif %}
+									</h3>
+									<a href="{% url 'add_cart_url' product.id %}" class="cta-btn">Добавить в корзину<i class="fa fa-arrow-circle-right"></i></a>
+								</div>
+							</div>
+						</div>
+					{% endfor %}
+					<!-- /shop -->
+
+
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /SECTION -->
+
+		<!-- SECTION -->
+		<div class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+					{% if new_products %}
+					<!-- section title -->
+					<div class="col-md-12">
+						<div class="section-title">
+							<h3 class="title">Новинка!</h3>
+							<div class="section-nav">
+							</div>
+						</div>
+					</div>
+					<!-- /section title -->
+					{% endif %}
+
+					<!-- Products tab & slick -->
+					<div class="col-md-12">
+						<div class="row">
+							<div class="products-tabs">
+								<!-- tab -->
+								<div id="tab1" class="tab-pane active">
+									<div class="products-slick" data-nav="#slick-nav-1">
+										<!-- product -->
+										{% for product in new_products %}
+										<div class="col-md-4 col-xs-6">
+											<div class="product">
+												<div class="product-img">
+												<a href="{% url 'product_detail_url' product.slug %}">
+													<div class="product-label">
+														{% if product.discount %}
+															<span class="new">-{{ product.discount }}%</span>
+														{% endif %}
+													</div>
+														<img class="image" src="{{ product.image.url }}" alt="404">
+													</div>
+												</a>
+												<div class="product-body">
+													<a href="{% url 'category_list' product.category.slug %}"><p class="product-category">{{ product.category }}</p></a>
+													<a href="{% url 'product_detail_url' product.slug %}"><h3 class="product-name">{{ product.title }}</h3></a>
+													{% if product.discount %}
+														<h4 class="product-price">{{ product.price_with_discount }} сом<del class="product-old-price">{{ product.price }} сом</del></h4>
+													{% else %}
+														<h4 class="product-price">{{ product.price }} сом</h4>
+													{% endif %}
+													<div class="product-rating">
+														{% if product.simple_star == 5%}
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+														{% endif %}
+														{% if product.simple_star >= 4 and product.simple_star < 5 %}
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star-o "></i>
+														{% endif %}
+														{% if product.simple_star >= 3 and product.simple_star < 4 %}
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star-o"></i>
+														{% endif %}
+														{% if product.simple_star >= 2 and product.simple_star < 3%}
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+														{% endif %}
+														{% if product.simple_star >= 1 and product.simple_star < 2%}
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+														{% endif %}
+														{% if product.simple_star == 0%}
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+														{% endif %}
+													</div>
+													<div class="product-btns">
+														{% if request.user in product.favorites.all %}
+															<button class="add-to-wishlist"><a href="{% url 'add_favorites' product.id %}"><i class="fa fa-heart"></i><span class="tooltipp">Удалить из избранного</span></a></button>
+														{% else %}
+															<button class="add-to-wishlist"><a href="{% url 'add_favorites' product.id %}"><i class="fa fa-heart-o"></i><span class="tooltipp">Добавить в избранное</span></a></button>
+														{% endif %}
+														<button class="quick-view"><a href="{% url 'product_detail_url' product.slug %}"><i class="fa fa-eye"></i><span class="tooltipp">Детальная информация</span></a></button>
+													 </div>
+												</div>
+												<div class="add-to-cart">
+													<a href="{% url 'add_cart_url' product.id %}">
+														<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>Добавить в Корзину</button>
+													</a>
+												</div>
+											</div>
+										</div>
+										{% endfor %}
+										<!-- /product -->
+									</div>
+									<div id="slick-nav-1" class="products-slick-nav"></div>
+								</div>
+								<!-- /tab -->
+							</div>
+						</div>
+					</div>
+					<!-- Products tab & slick -->
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /SECTION -->
+
+		<!-- HOT DEAL SECTION -->
+
+		<!-- SECTION -->
+		<div class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+
+					<!-- section title -->
+					<div class="col-md-12">
+						<div class="section-title">
+							<h3 class="title">Скидка!</h3>
+						</div>
+					</div>
+					<!-- /section title -->
+
+					<!-- Products tab & slick -->
+					<div class="col-md-12">
+						<div class="row">
+							<div class="products-tabs">
+								<!-- tab -->
+								<div id="tab2" class="tab-pane fade in active">
+									<div class="products-slick" data-nav="#slick-nav-2">
+										<!-- product -->
+										{% for product in products_with_discount %}
+										<div class="col-md-4 col-xs-6">
+											<div class="product">
+												<div class="product-img">
+												<a href="{% url 'product_detail_url' product.slug %}">
+													<div class="product-label">
+														{% if product.discount %}
+															<span class="new">-{{ product.discount }}%</span>
+														{% endif %}
+													</div>
+														<img class="image" src="{{ product.image.url }}" alt="404">
+
+													</div>
+												</a>
+												<div class="product-body">
+													<a href="{% url 'category_list' product.category.slug %}"><p class="product-category">{{ product.category }}</p></a>
+													<a href="{% url 'product_detail_url' product.slug %}"><h3 class="product-name">{{ product.title }}</h3></a>
+													{% if product.discount %}
+														<h4 class="product-price">{{ product.price_with_discount }} сом<del class="product-old-price">{{ product.price }} сом</del></h4>
+													{% else %}
+														<h4 class="product-price">{{ product.price }} сом</h4>
+													{% endif %}
+													<div class="product-rating">
+														{% if product.simple_star == 5%}
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+														{% endif %}
+														{% if product.simple_star >= 4 and product.simple_star < 5 %}
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star-o "></i>
+														{% endif %}
+														{% if product.simple_star >= 3 and product.simple_star < 4 %}
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star-o"></i>
+														{% endif %}
+														{% if product.simple_star >= 2 and product.simple_star < 3%}
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+														{% endif %}
+														{% if product.simple_star >= 1 and product.simple_star < 2%}
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+																<i class="fa fa-star-o"></i>
+														{% endif %}
+														{% if product.simple_star == 0%}
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+														{% endif %}
+													</div>
+													<div class="product-btns">
+														{% if request.user in product.favorites.all %}
+															<button class="add-to-wishlist"><a href="{% url 'add_favorites' product.id %}"><i class="fa fa-heart"></i><span class="tooltipp">Удалить из избранного</span></a></button>
+														{% else %}
+															<button class="add-to-wishlist"><a href="{% url 'add_favorites' product.id %}"><i class="fa fa-heart-o"></i><span class="tooltipp">Добавить в избранное</span></a></button>
+														{% endif %}
+														<button class="quick-view"><a href="{% url 'product_detail_url' product.slug %}"><i class="fa fa-eye"></i><span class="tooltipp">Детальная информация</span></a></button>
+													 </div>
+												</div>
+												<div class="add-to-cart">
+													<a href="{% url 'add_cart_url' product.id %}">
+														<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>Добавить в Корзину</button>
+													</a>
+												</div>
+											</div>
+										</div>
+										{% endfor %}
+									</div>
+									<div id="slick-nav-2" class="products-slick-nav"></div>
+								</div>
+								<!-- /tab -->
+							</div>
+						</div>
+					</div>
+					<!-- /Products tab & slick -->
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /SECTION -->
+		
+{% endblock %}
