@@ -90,11 +90,11 @@ WSGI_APPLICATION = 'backend.config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.getenv("POSTGRES_DB", default='django_db'),
-        'USER' : os.getenv("POSTGRES_USER", default='anonymous'),
-        'PASSWORD' : os.getenv("POSTGRES_PASSWORD",  default='password'),
-        'HOST' : os.getenv("POSTGRES_HOST", default='127.0.0.1'),
-        'PORT' : os.getenv("POSTGRES_PORT", default='5432'),
+        'NAME': os.getenv("DJANGO_DB_NAME", default='drugshop_db'),
+        'USER' : os.getenv("DJANGO_DB_USER", default='drugshop_user'),
+        'PASSWORD' : os.getenv("DJANGO_DB_PASSWORD",  default='drugshop123'),
+        'HOST' : os.getenv("DJANGO_DB_HOST", default='127.0.0.1'),
+        'PORT' : os.getenv("DJANGO_DB_PORT", default='5432'),
     }
 }
 
@@ -132,13 +132,13 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
-STATIC_URL = "/static/"
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
-STATIC_ROOT = "/static/"
-STATICFILES_DIRS = [     os.path.join(BASE_DIR, "static"), ]
 
 MEDIA_URL = "/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_ROOT = os.path.join(BASE_DIR,'media/')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
