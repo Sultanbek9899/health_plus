@@ -9,7 +9,6 @@ from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
 class ProductsAdminForm(forms.ModelForm):
     description = forms.CharField(label="Описание", widget=CKEditorUploadingWidget())
-    detail = forms.CharField(label='Детали', widget=CKEditorUploadingWidget())
 
     class Meta:
         model = Products

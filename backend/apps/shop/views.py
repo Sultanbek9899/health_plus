@@ -22,8 +22,8 @@ class HomeView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        new_products = Products.objects.filter(status=True)
-        products_with_discount = Products.objects.order_by('-discount')
+        new_products = Products.objects.filter(status=True).order_by('-created')
+        products_with_discount = Products.objects.filter(discount__gt=1)
         for product in new_products:
             product.price_with_discount = float(product.price) - (
                         float(product.price) * (product.discount / 100)) if product.discount else 0
@@ -55,8 +55,6 @@ class HomeView(ListView):
             else:
                 product.simple_star = 0
         context["new_products"] = new_products[:10] if len(new_products) > 10 else new_products
-        context["products_with_discount"] = products_with_discount[:10] if len(
-            products_with_discount) > 10 else products_with_discount
         context["products_with_discount"] = products_with_discount[:10] if len(products_with_discount) > 10 else products_with_discount
         return context
 

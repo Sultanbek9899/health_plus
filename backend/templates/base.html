@@ -54,7 +54,7 @@
 
 				<ul class="header-links pull-right">
 					{% if request.user.is_authenticated %}
-						<li><a href="#"><i class="fa fa-user-o"></i>{{user.username}}</a></li>
+						<li><a href="#"><i class="fa fa-user-o"></i>{{user.email}}</a></li>
 						<li><a href="{% url 'logout' %}">Выйти</a></li>
 					{% else %}
 						<li><a href="{% url 'login' %}"><i class="fa fa-user-o"></i>Войти</a></li>
@@ -72,7 +72,7 @@
 					<div class="row">
 						<!-- LOGO -->
 						<div class="col-md-3">
-							<div class="header-logo">
+							<div class="header-logo" style="margin-top: 19px !important;">
 								<a href="{% url 'index_url' %}" class="logo">
 									<img src="{% static '/img/health_plus.png' %}" alt="">
 								</a>
