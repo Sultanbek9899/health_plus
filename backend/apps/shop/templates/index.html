@@ -32,7 +32,6 @@
 								</div>
 								<div class="shop-body">
 									<h3><a style="color: white" href="{% url 'product_detail_url' product.slug %}">{{ product.title }}</a><br>{{ product.price }} сом</h3>
-									<a href="{% url 'product_detail_url' product.slug %}" class="cta-btn">Добавить в корзину<i class="fa fa-arrow-circle-right"></i></a>
 									<a href="{% url 'add_cart_url' product.id %}" class="cta-btn">Добавить в корзину<i class="fa fa-arrow-circle-right"></i></a>
 								</div>
 							</div>

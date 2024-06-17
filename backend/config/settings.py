@@ -94,7 +94,7 @@ DATABASES = {
         'USER' : os.getenv("DJANGO_DB_USER", default='drugshop_user'),
         'PASSWORD' : os.getenv("DJANGO_DB_PASSWORD",  default='drugshop123'),
         'HOST' : os.getenv("DJANGO_DB_HOST", default='127.0.0.1'),
-        'PORT' : os.getenv("DJANGO_DB_PORT", default='5432'),
+        'PORT' : os.getenv("DJANGO_DB_PORT", default='5435'),
     }
 }
 
@@ -121,7 +121,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru-RU'
 
 TIME_ZONE = 'UTC'
 

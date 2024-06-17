@@ -46,22 +46,32 @@
 		<header>
 			<!-- TOP HEADER -->
 			<div id="top-header">
-				<div class="container">
-					<ul class="header-links pull-left">
-						<li><a href="#"><i class="fa fa-phone"></i> 777 777 777</a></li>
-						<li><a href="https://www.google.com/maps/contrib/116392698331744132518/photos/@42.8789919,74.5956283,17z/data=!3m1!4b1!4m3!8m2!3m1!1e1"><i class="fa fa-map-marker"></i> Бишкек</a></li>
-					</ul>
+    <div class="container">
+        <ul class="header-links pull-left">
+            <li><a href="#"><i class="fa fa-phone"></i> 777 777 777</a></li>
+            <li><a href="https://www.google.com/maps/contrib/116392698331744132518/photos/@42.8789919,74.5956283,17z/data=!3m1!4b1!4m3!8m2!3m1!1e1"><i class="fa fa-map-marker"></i> Киевская 49, Бишкек</a></li>
+        </ul>
+        <ul class="header-links pull-right">
+            {% if request.user.is_authenticated %}
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-user-o"></i> {{ user.email }}
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right user-dropdown-menu" aria-labelledby="userDropdown">
+                        <a class="dropdown-item" href="{% url 'change_password' %}" style="color: black;">Изменить пароль</a>
+                        <div style="margin-bottom: 5px;"></div> <!-- Add space between items -->
+                        <a class="dropdown-item" href="{% url 'order_list' %}" style="display: block; color: black;">Мои заказы</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{% url 'logout' %}" style="color: black;">Выйти</a>
+                    </div>
+                </li>
+            {% else %}
+                <li><a href="{% url 'login' %}"><i class="fa fa-user-o"></i> Войти</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
 
-				<ul class="header-links pull-right">
-					{% if request.user.is_authenticated %}
-						<li><a href="#"><i class="fa fa-user-o"></i>{{user.email}}</a></li>
-						<li><a href="{% url 'logout' %}">Выйти</a></li>
-					{% else %}
-						<li><a href="{% url 'login' %}"><i class="fa fa-user-o"></i>Войти</a></li>
-					{% endif %}
-			  </ul>
-				</div>
-			</div>
 			<!-- /TOP HEADER -->
 
 			<!-- MAIN HEADER -->
@@ -91,7 +101,7 @@
 											<option value="{%  url 'category_list' category.slug %}"><value href="{% url 'category_list' category.slug %}"> {{ category.title}} </value> </option>
 										{% endfor %}
 									</select>
-									<input type='search' name="q" class="input" placeholder="Search here" required="">
+									<input type='search' name="q" class="input" placeholder="Введите название" required="">
 									<button type="submit" class="search-btn">Поиск</button>
 								</form>
 							</div>
@@ -206,92 +216,29 @@
 
         <!-- FOOTER -->
 		<footer id="footer">
-			<!-- top footer -->
-			<div class="section">
-				<!-- container -->
-				<div class="container">
-					<!-- row -->
-					<div class="row">
-						<div class="col-md-3 col-xs-6">
-							<div class="footer">
-								<h3 class="footer-title">ОБРАТНАЯ СВЯЗЬ</h3>
-								<ul class="footer-links">
-									<li><a href="#"><i class="fa fa-phone"></i> 777 777 777</a></li>
-									<li><a href="https://www.google.com/maps/contrib/116392698331744132518/photos/@42.8789919,74.5956283,17z/data=!3m1!4b1!4m3!8m2!3m1!1e1"><i class="fa fa-map-marker"></i>Рыскулова 79Б Бишкек</a></li>
-								</ul>
-							</div>
-						</div>
+    <!-- top footer -->
+    <div class="section">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <div class="footer">
+                        <h3 class="footer-title">КОНТАКТЫ</h3>
+                        <ul class="footer-links">
+                            <li><i class="fa fa-phone"></i> 777 777 777</li>
+                            <li><i class="fa fa-map-marker"></i> Киевская 49, Бишкек</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- /row -->
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /top footer -->
+</footer>
 
-
-						<div class="clearfix visible-xs"></div>
-
-						<div class="col-md-3 col-xs-6">
-							<div class="footer">
-								<h3 class="footer-title">ПОМОЩЬ</h3>
-								<ul class="footer-links">
-									<li><a href="#">Как сделать заказ</a></li>
-									<li><a href="#">Оплата</a></li>
-									<li><a href="#">Доставка</a></li>
-								</ul>
-							</div>
-						</div>
-
-						<div class="col-md-3 col-xs-6">
-							<div class="footer">
-								<h3 class="footer-title">СЕРВИС</h3>
-								<ul class="footer-links">
-									<li><a href="#">Личный кабинет</a></li>
-									<li><a href="#">Посмотреть корзину</a></li>
-									<li><a href="#">Оставить отзывы</a></li>
-									<li><a href="#">Отслеживать свой заказ</a></li>
-								</ul>
-							</div>
-						</div>
-
-						<div class="col-md-3 col-xs-6">
-							<div class="footer">
-								<h3 class="footer-title">О НАС</h3>
-								<ul class="footer-links">
-									<li><a href="#">О компании</a></li>
-									<li><a href="#">Политика конфиденциальности</a></li>
-								</ul>
-							</div>
-						</div>
-
-					</div>
-					<!-- /row -->
-				</div>
-				<!-- /container -->
-			</div>
-			<!-- /top footer -->
-
-			<!-- bottom footer -->
-			<div id="bottom-footer" class="section">
-				<div class="container">
-					<!-- row -->
-					<div class="row">
-						<div class="col-md-12 text-center">
-							<ul class="footer-payments">
-								<li><a href="#"><i class="fa fa-cc-visa"></i></a></li>
-								<li><a href="#"><i class="fa fa-credit-card"></i></a></li>
-								<li><a href="#"><i class="fa fa-cc-paypal"></i></a></li>
-								<li><a href="#"><i class="fa fa-cc-mastercard"></i></a></li>
-								<li><a href="#"><i class="fa fa-cc-discover"></i></a></li>
-								<li><a href="#"><i class="fa fa-cc-amex"></i></a></li>
-							</ul>
-							<span class="copyright">
-								<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-								Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-							<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-							</span>
-						</div>
-					</div>
-						<!-- /row -->
-				</div>
-				<!-- /container -->
-			</div>
-			<!-- /bottom footer -->
-		</footer>
 		<!-- /FOOTER -->
 
         <!-- jQuery Plugins -->

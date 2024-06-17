@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, View, CreateView, TemplateView
 from django.views.generic.edit import FormMixin
@@ -11,7 +12,7 @@ from .models import Products, Reviews, Categories, RatingStar
 from .forms import ReviewsForm
 from decimal import Decimal as D
 from django.db.models import Q
-from django.http import JsonResponse
+from backend.apps.cart.models import Order
 
 # Create your views here.
 
@@ -65,7 +66,10 @@ class ProductsListView(ListView):
     paginate_by = 9
 
     def get_queryset(self, **kwargs):
+        search_text = self.request.GET.get('q')
         queryset = Products.objects.filter(status=True)
+        if search_text:
+            queryset = Products.objects.filter(Q(title__icontains=search_text) | Q(description__icontains=search_text))
         for product in queryset:
             product.price_with_discount = float(product.price) - (
                     float(product.price) * (product.discount / 100)) if product.discount else 0
@@ -327,7 +331,24 @@ class ProductcategoryListView(ListView):
         return queryset
 
 
+class OrderListView(LoginRequiredMixin, ListView):
+    model = Order
+    template_name = 'user_order.html'
+    context_object_name = 'orders'
+    ordering = ['-created']
 
+    def get_queryset(self):
+        return Order.objects.filter(user=self.request.user)
+
+
+# views.py
+class OrderDetailView(LoginRequiredMixin, DetailView):
+    model = Order
+    template_name = 'user_order_detail.html'
+    context_object_name = 'order'
+
+    def get_queryset(self):
+        return Order.objects.filter(user=self.request.user)
 
 
 

@@ -16,9 +16,9 @@ class CheckoutForm(forms.ModelForm):
         fields = ['fio', 'phone_number', 'email', 'address', 'post_code', 'bank_card']
 
         widgets = {
-            'fio': forms.TextInput(attrs = {'placeholder': 'Нуржигит Чыныбаев Нурматович', 'class': 'input'}),
-            'email': forms.EmailInput(attrs = {'placeholder': 'nurzhigit@example.com', 'class': 'input'}),
-            'phone_number': forms.TextInput(attrs = {'placeholder': '+996 700 514 927', 'class': 'input'}),
+            'fio': forms.TextInput(attrs = {'placeholder': 'Асанов Асан Асанович', 'class': 'input'}),
+            'email': forms.EmailInput(attrs = {'placeholder': 'adelya@example.com', 'class': 'input'}),
+            'phone_number': forms.TextInput(attrs = {'placeholder': '+996 999 55 22 11', 'class': 'input'}),
             'address': forms.TextInput(attrs = {'placeholder': 'Бишкек, ул. Аблесова, дом 78А', 'class': 'input'}),
             'post_code': forms.TextInput(attrs = {'placeholder': '1111', 'class': 'input'}),
             'bank_card': forms.TextInput(attrs = {'placeholder': '1111 1111 1111 1111', 'class': 'input'})

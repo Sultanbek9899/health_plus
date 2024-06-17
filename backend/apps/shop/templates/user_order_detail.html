@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Заказ № {{ order.id }}
+{% endblock %}
+
+{% block content %}
+
+<div class="container orderDetail">
+  <div class="order-header">
+    <h3 class="order-id">Заказ № {{ order.id }}</h3>
+    <p class="order-date">Дата: {{ order.created }}</p>
+    <p class="order-status">Статус: {{ order.get_status_display }}</p>
+    <p class="order-total">Итоговая сумма: {{ order.total_sum }} сом</p>
+  </div>
+  <div class="order-body">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Изображение</th>
+          <th>Название</th>
+          <th>Цена</th>
+          <th>Количество</th>
+          <th>Сумма</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in order.orderitem_set.all %}
+        <tr>
+          <td><img class="image" src="{{ item.product.image.url }}" alt="404" width="50"></td>
+          <td><a href="{% url 'product_detail_url' item.product.slug %}">{{ item.product.title }}</a></td>
+          <td>{{ item.price }} сом</td>
+          <td>{{ item.quantity }}</td>
+          <td>{{ item.price|floatformat:2 }} сом</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div class="order-footer">
+    <button class="btn btn-primary" onclick="window.print()">Печать</button>
+  </div>
+</div>
+
+{% endblock %}

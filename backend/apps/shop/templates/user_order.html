@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Мои заказы
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <h2>Мои заказы</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>№ заказа</th>
+                <th>Дата</th>
+                <th>Статус</th>
+                <th>Количество товара</th>
+                <th>Общая сумма</th>
+
+                <th>Детали</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.created|date:"d.m.Y H:i" }}</td>
+                    {% if order.status %}
+                <td>Доставлено</td>
+                    {% else %}
+                <td>Недоставлено</td>
+                    {% endif %}
+                <td>{{ order.orderitem_set.count }}</td>
+                <td>{{ order.total_sum }} сом</td>
+                <td><a href="{% url 'order_detail' order.id %}" class="btn btn-info btn-sm">Детали</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

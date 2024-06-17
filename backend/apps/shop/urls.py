@@ -10,4 +10,6 @@ urlpatterns = [
     path('category_list/<str:category_slug>/', ProductcategoryListView.as_view(), name="category_list"),
     path('product_review/<int:pk>/', AddReview.as_view(), name="add_review"),
     path('favorites', get_favorites_product, name='favorites'),
+    path('orders/', OrderListView.as_view(), name='order_list'),
+    path('orders/<int:pk>/', OrderDetailView.as_view(), name='order_detail'),
 ]

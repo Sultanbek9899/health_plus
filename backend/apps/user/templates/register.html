@@ -32,22 +32,29 @@
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100">
-				<form  method="POST" class="login100-form validate-form p-l-55 p-r-55 p-t-178">
+				<form method="POST" class="login100-form validate-form p-l-55 p-r-55 p-t-178">
+					{% csrf_token %}
 					<span class="login100-form-title">
 						Регистрация
 					</span>
 
-					{{form.as_p}}
-					{%csrf_token%}
-
+					{% for field in form %}
+						<div class="form-group">
+							{{ field.label }}:<br>
+							{{ field}}
+							{% for error in field.errors %}
+								<div class="text-danger">{{ error }}</div>
+							{% endfor %}
+						</div>
+					{% endfor %}
 
 					<div class="container-login100-form-btn">
-						<input type="submit" value="Зарегистрироваться" class="login100-form-btn">
+						<input type="submit" value="Зарегистрироваться" class="login100-form-btn btn btn-primary">
 					</div>
 
 					<div class="flex-col-c p-t-170 p-b-40">
 						<span class="txt1 p-b-9">
-							 Есть аккаунт?
+							Есть аккаунт?
 						</span>
 
 						<a href="{% url 'login' %}" class="txt3">
